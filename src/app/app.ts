@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { PlaylistService } from './service/playlist-service';
 import { HttpParams } from '@angular/common/http';
 
 @Component({

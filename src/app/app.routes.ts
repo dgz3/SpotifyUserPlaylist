@@ -1,18 +1,28 @@
 import { Routes } from '@angular/router';
-import { PlaylistManager } from './component/playlist-manager/playlist-manager';
-import { Authorize } from './component/authorize/authorize';
-import { authorizeGuard } from './service/authorize-guard';
+import { PlManager } from './component/pl-manager/pl-manager';
+import { PlAuthguard } from './service/pl-authguard';
+import { PlLogin } from './component/pl-login/pl-login';
 
 export const routes: Routes = 
 [
     {
         path: '',
-        component: PlaylistManager,
-        canActivate: [authorizeGuard]
-    }
-    ,
+        component: PlManager,
+        canActivate: [PlAuthguard]
+    } ,
     {
-        path: 'authorize',
-        component: Authorize,
+        path: 'login',
+        component: PlLogin,
     }
+    
+    // {
+    //     path: '',
+    //     component: PlaylistManager,
+    //     canActivate: [authorizeGuard]
+    // }
+    // ,
+    // {
+    //     path: 'authorize',
+    //     component: Authorize,
+    // }
 ];

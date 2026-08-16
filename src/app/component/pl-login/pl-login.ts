@@ -1,31 +1,27 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { AuthorizeService } from '../../service/authorize-service';
-import { SpotifyToken } from '../../model/spotify-token';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-authorize',
+  selector: 'app-pl-login',
   imports: [],
-  templateUrl: './authorize.html',
-  styleUrl: './authorize.css',
+  templateUrl: './pl-login.html',
+  styleUrl: './pl-login.css',
 })
-export class Authorize {
+export class PlLogin {
+
   private readonly clientId = 'f52991f223b242d385949eb2a569c5da';
-  private readonly redirectUri = 'http://127.0.0.1:4200/authorize';
+  private readonly redirectUri = 'http://127.0.0.1:4200/login';
 
   private codeChallenge: string = '';
 
   constructor(private authorizeService: AuthorizeService
-    , private router: Router
-  ) { }
+             ,private router: Router) { }
 
   ngOnInit() {
-    // checking to see if code has already been received from server
     const urlParams = new URLSearchParams(window.location.search);
     const returnedCode = urlParams.get('code');
 
-    // TODO: wrap this into a authorizeService function  (if (returnedCode) call handleCallback())
-    // if yes, exchange code for token
     if (returnedCode) {
       const codeVerifier = localStorage.getItem('code_verifier');
 
@@ -47,15 +43,10 @@ export class Authorize {
     }
   }
 
-  login(){
-
-    // this.authorizeService. getAccessToken();
-  }
-
-  login2() {
-    // generate code verifier
+  login(): void {
+        // generate code verifier
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const values = crypto.getRandomValues(new Uint8Array(64));
+    const values = crypto.getRandomValues(new Uint8Array(128));
     const codeVerifier = values.reduce((acc, x) => acc + possible[x % possible.length], "");
 
     // generate code challenge and request server for token code

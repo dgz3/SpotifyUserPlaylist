@@ -9,31 +9,7 @@ import { AuthorizeService } from '../../service/authorize-service';
   styleUrl: './playlist-manager.css',
 })
 export class PlaylistManager {
-  isAuthorized: boolean = false;
 
-  constructor(private authorizeService: AuthorizeService
-    , private router: Router
-  ) { }
+  ngOnInit() { }
 
-  ngOnInit() {
-    const auth_obj = localStorage.getItem('auth_object');
-    console.log(auth_obj);
-
-    if (auth_obj) {
-      this.isAuthorized = true;
-      console.log(auth_obj);
-    } else {
-      this.router.navigate(['authorize']);
-    }
-  }
-}
-
-interface tracksPage {
-  href: string
-  items: any
-  limit: number
-  next: string
-  offset: number
-  previous: string
-  total: number
 }

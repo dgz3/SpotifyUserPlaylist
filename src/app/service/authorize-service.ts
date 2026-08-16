@@ -1,14 +1,18 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SpotifyToken } from '../model/spotify-token';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthorizeService {
   private readonly clientId = 'f52991f223b242d385949eb2a569c5da';
-  private readonly redirectUri = 'http://127.0.0.1:4200/authorize';
+  private readonly redirectUri = 'http://127.0.0.1:4200/login';
   private readonly tokenUrl = 'https://accounts.spotify.com/api/token';
   private readonly authorizeUrl = new URL('https://accounts.spotify.com/authorize');
+  private readonly STORAGE_KEY = 'spotify_token';
+  private token: SpotifyToken | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -58,12 +62,26 @@ export class AuthorizeService {
       });
   }
 
-  // TODO
-  isLoggedIn(): boolean{
-    return(true);
+  setToken(token: SpotifyToken){
+    this.token = token;
+    this.token.expires_at = (Math.floor(Date.now()/1000) + this.token.expires_in) * 1000;
+    localStorage.setItem(this.STORAGE_KEY,JSON.stringify(token));
   }
 
-  getToken(codeVerifier: string, returnedCode: string) {
+  isLoggedIn(): boolean{
+    const storedData =localStorage.getItem(this.STORAGE_KEY);
+    const tokenObject = ( storedData ? JSON.parse(storedData) : null );
+
+    if (!tokenObject) return(false);
+
+    if (!tokenObject.expires_at) return(false);
+
+//    return( Date.now() < this.token.expires_at - 60000 );
+//    return( Date.now() < this.token.expires_at );    
+    return( Date.now() < tokenObject.expires_at );    
+  }
+
+  getToken(codeVerifier: string, returnedCode: string): Observable<SpotifyToken>{
     console.log('(>*.*)>---o/o/o  getToken()')
     console.log('code verfier: ', codeVerifier);
     console.log('server code: ', returnedCode);
@@ -77,7 +95,7 @@ export class AuthorizeService {
       .set('redirect_uri', this.redirectUri)
       .set('code_verifier', codeVerifier);
 
-    return (this.http.post(this.tokenUrl, body.toString(), { headers }));
+    return (this.http.post<SpotifyToken>(this.tokenUrl, body.toString(), { headers }));
   }
 
 }
