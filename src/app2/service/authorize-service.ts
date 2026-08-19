@@ -78,7 +78,15 @@ export class AuthorizeService {
 
 //    return( Date.now() < this.token.expires_at - 60000 );
 //    return( Date.now() < this.token.expires_at );    
-    return( Date.now() < tokenObject.expires_at );    
+
+    const isExpired =  tokenObject.expires_at < Date.now();
+
+    if (isExpired){
+      localStorage.clear();
+      return(false);
+    }
+
+    return(true);    
   }
 
   getToken(codeVerifier: string, returnedCode: string): Observable<SpotifyToken>{

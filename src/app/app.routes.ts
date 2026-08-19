@@ -1,11 +1,19 @@
 import { Routes } from '@angular/router';
-import { PlManager } from './component/pl-manager/pl-manager';
-import { PlAuthguard } from './service/pl-authguard';
-import { PlLogin } from './component/pl-login/pl-login';
+import { Callback } from './component/callback/callback';
+import { authGuard } from './guard/auth-guard';
+import { Login } from './component/login/login';
+import { Dashboard } from './component/dashboard/dashboard';
 
 export const routes: Routes = 
 [
-    {
+  { path: 'callback', component: Callback },
+  { path: 'login', component: Login },
+  { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+
+
+
+/*     {
         path: '',
         component: PlManager,
         canActivate: [PlAuthguard]
@@ -13,7 +21,7 @@ export const routes: Routes =
     {
         path: 'login',
         component: PlLogin,
-    }
+    } */
     
     // {
     //     path: '',
