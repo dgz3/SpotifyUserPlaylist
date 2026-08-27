@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ export class AuthService {
 
    private clientId = 'f52991f223b242d385949eb2a569c5da';
   private redirectUri = 'http://127.0.0.1:4200/callback';
-  private scopes = 'user-read-private user-read-email playlist-read-private';
+  private scopes = 'user-read-private user-read-email playlist-read-private user-library-read';
   private tokenEndpoint = 'https://accounts.spotify.com/api/token';
   private authorizeEndpoint = 'https://accounts.spotify.com/authorize';
 
@@ -41,7 +42,7 @@ export class AuthService {
 
     // Store verifier for later use in token exchange
     sessionStorage.setItem('code_verifier', codeVerifier);
-    localStorage.setItem('code_verifier', codeVerifier);
+    // localStorage.setItem('code_verifier', codeVerifier);
 
     const params = new HttpParams()
       .set('client_id', this.clientId)
@@ -73,15 +74,15 @@ export class AuthService {
       .set('code_verifier', codeVerifier);
 
     try {
-      const response = await this.http.post<SpotifyTokenResponse>(
-        this.tokenEndpoint,
-        body.toString(),
-        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
-      ).toPromise();
+      const response = await firstValueFrom(
+        this.http.post<SpotifyTokenResponse>(
+          this.tokenEndpoint,
+          body.toString(),
+          { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } } )
+      );
 
       this.storeTokens(response!);
-      sessionStorage
-      .removeItem('code_verifier');
+      sessionStorage.removeItem('code_verifier');
       this.router.navigate(['/dashboard']);
     } catch (error) {
       console.error('Token exchange failed:', error);
