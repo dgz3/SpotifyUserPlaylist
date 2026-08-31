@@ -1,19 +1,38 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, OnInit, signal } from '@angular/core';
 import { AuthService } from '../../service/auth';
 import { SpotifyService } from '../../service/spotify-service';
 import { Track } from '../../model/track';
+import { Playlist } from '../../model/playlist';
+import { PlaylistList } from "./playlist-list/playlist-list";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [PlaylistList],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
 export class Dashboard {
-  // listOfPlaylists = signal();
+  resolvedPlaylists = input<Playlist[]>();
+
+  private playlistUrl: string | null = null;
   
   constructor(private authService: AuthService,
               private spotifyService: SpotifyService) {}
+
+  getPlaylist(playlistHref: string): void {
+    console.log(playlistHref);
+    this.playlistUrl = playlistHref;
+  }
+
+  getTracks(): void {
+    if (this.playlistUrl) {
+      this.spotifyService.getPlaylistTracks(this.playlistUrl)
+        .subscribe({
+          next(resp) { console.log(resp) },
+          error(err) { console.log(err) }
+        });
+    }
+  }
 
   /* /me/tracks */
   loadUserTracks(): void {

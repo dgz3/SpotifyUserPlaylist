@@ -1,0 +1,7 @@
+<select #playlist_selector (change)="displayPlaylist(playlist_selector.value)">
+    @for (playlist of playlists(); track playlist.href) {
+        <option [value]="playlist.href"> 
+            {{ playlist.name }} 
+        </option>
+    }
+</select>
