@@ -77,8 +77,13 @@ export class SpotifyService {
 
         map( (rawTracks: any[]) => {
           return(
+            // note the usage of item vs track (see below links)
+            // api pages and response layout /me/tracks returns different from /me/playlists/{id}/items
+            // tracks -> https://developer.spotify.com/documentation/web-api/reference/get-users-saved-tracks
+            // playlists -> https://developer.spotify.com/documentation/web-api/reference/get-playlists-items
             rawTracks.map( (item: any) => {
-              let duration_ms = item.track.duration_ms;
+              const track = (url === this.likedSongsPlaylist.href) ? item.track : item.item;
+              let duration_ms = track.duration_ms;
               const min   = Math.trunc(duration_ms / this.MS_PER_MIN);
               duration_ms = duration_ms % this.MS_PER_MIN;
               const sec   = Math.ceil(duration_ms / this.MS_PER_SEC);
@@ -90,11 +95,11 @@ export class SpotifyService {
               
               return(
                 {
-                  name: item.track.name,
-                  artist: item.track.artists[0].name,
-                  album: item.track.album.name,
+                  name: track.name,
+                  artist: track.artists[0].name,
+                  album: track.album.name,
                   duration: duration,
-                  added_at: item.added_at
+                  added_at: item.added_at 
                 }
               )
                 

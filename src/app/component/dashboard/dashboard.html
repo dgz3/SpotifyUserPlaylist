@@ -1,8 +1,4 @@
-<p>dashboard works!</p>
-
-<button (click)="loadPlaylists()">loadPlaylists</button>
 <button (click)="loadUserProfile()">loadUserProfile</button>
-<button (click)="loadUserTracks()">loadUserTracks</button>
 <button (click)="logout()">logout</button>
 
 <app-playlist-list [playlists]="resolvedPlaylists()" (playlist)="getPlaylist($event)"></app-playlist-list>
