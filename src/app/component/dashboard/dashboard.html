@@ -1,4 +1,6 @@
-<button (click)="loadUserProfile()">loadUserProfile</button>
+<!-- <button (click)="loadUserProfile()">loadUserProfile</button> -->
+
+<app-profile-view [profile]="resolvedProfile()"></app-profile-view>
 <button (click)="logout()">logout</button>
 
 <app-playlist-list [playlists]="resolvedPlaylists()" (playlist)="getPlaylist($event)"></app-playlist-list>

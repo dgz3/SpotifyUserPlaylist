@@ -4,6 +4,7 @@ import { authGuard } from './guard/auth-guard';
 import { Login } from './component/login/login';
 import { Dashboard } from './component/dashboard/dashboard';
 import { playlistsResolver } from './resolver/playlists-resolver';
+import { profileResolver } from './resolver/profile-resolver';
 
 export const routes: Routes = 
 [
@@ -20,7 +21,8 @@ export const routes: Routes =
     component: Dashboard, 
     resolve: 
     {
-      resolvedPlaylists: playlistsResolver
+      resolvedPlaylists: playlistsResolver,
+      resolvedProfile: profileResolver
     },
     canActivate: [authGuard] 
   },

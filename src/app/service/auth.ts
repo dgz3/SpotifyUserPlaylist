@@ -8,15 +8,13 @@ import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 })
 export class AuthService {
 
-   private clientId = 'f52991f223b242d385949eb2a569c5da';
+  private clientId = 'f52991f223b242d385949eb2a569c5da';
   private redirectUri = 'http://127.0.0.1:4200/callback';
   private scopes = 'user-read-private user-read-email playlist-read-private user-library-read';
   private tokenEndpoint = 'https://accounts.spotify.com/api/token';
   private authorizeEndpoint = 'https://accounts.spotify.com/authorize';
 
   constructor(private http: HttpClient, private router: Router) {}
-
-  // --- PKCE Helpers ---
 
   private generateRandomString(length: number): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -34,15 +32,11 @@ export class AuthService {
       .replace(/=+$/, '');
   }
 
-  // --- Login Flow ---
-
   async login(): Promise<void> {
     const codeVerifier = this.generateRandomString(128);
     const codeChallenge = await this.generateCodeChallenge(codeVerifier);
 
-    // Store verifier for later use in token exchange
     sessionStorage.setItem('code_verifier', codeVerifier);
-    // localStorage.setItem('code_verifier', codeVerifier);
 
     const params = new HttpParams()
       .set('client_id', this.clientId)
@@ -52,12 +46,9 @@ export class AuthService {
       .set('code_challenge_method', 'S256')
       .set('code_challenge', codeChallenge);
 
-//    console.log(`${this.authorizeEndpoint}?${params.toString()}`);
     // Redirect to Spotify login page
     window.location.href = `${this.authorizeEndpoint}?${params.toString()}`;
   }
-
-  // --- Token Exchange (called from callback component) ---
 
   async handleCallback(code: string): Promise<void> {
     const codeVerifier = sessionStorage.getItem('code_verifier');
@@ -90,8 +81,6 @@ export class AuthService {
     }
   }
 
-  // --- Token Management ---
-
   private storeTokens(tokens: SpotifyTokenResponse): void {
     const expiresAt = Date.now() + tokens.expires_in * 1000;
     localStorage.setItem('access_token', tokens.access_token);
@@ -108,8 +97,6 @@ export class AuthService {
     const expiresAt = localStorage.getItem('expires_at');
     return !!token && !!expiresAt && Date.now() < Number(expiresAt);
   }
-
-  // --- Refresh Token ---
 
   async refreshAccessToken(): Promise<void> {
     const refreshToken = localStorage.getItem('refresh_token');

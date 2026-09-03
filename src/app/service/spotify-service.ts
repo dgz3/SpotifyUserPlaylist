@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { EMPTY, expand, map, Observable, reduce } from 'rxjs';
 import { Track } from '../model/track';
 import { Playlist } from '../model/playlist';
+import { Profile } from '../model/profile';
 
 interface SpotifyPageResponse {
   items: any[];
@@ -110,12 +111,34 @@ export class SpotifyService {
     );
   }
 
-  getUserProfile(): Observable<any> {
+  getUserProfile(): Observable<Profile> {
+    const url = "https://api.spotify.com/v1/me";
     return(
-      this.httpClient.get<any>("https://api.spotify.com/v1/me")
+      this.httpClient.get<any>(url).pipe(
+
+        map( (res) => ({
+          account_id: res.account_id,
+          country: res.country,
+          display_name: res.display_name,
+          email: res.email,
+          id: res.id,
+          image: {
+              height: res.images[res.images.length-1].height,
+              url: res.images[res.images.length-1].url,
+              width: res.images[res.images.length-1].width
+          }
+        }))
+
+      )
     );
   }
+}
 
+
+
+
+
+/*
   getUserTracks(): Observable<Track[]> {
     const options = { params: { limit: 50 }};
     const url = "https://api.spotify.com/v1/me/tracks";
@@ -173,4 +196,4 @@ export class SpotifyService {
       )
     );
   }
-}
+*/
