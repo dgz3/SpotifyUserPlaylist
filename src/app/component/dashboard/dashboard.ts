@@ -34,12 +34,15 @@ export class Dashboard {
     this.playlistUrl = playlistHref;
   }
 
+  isLoading = signal(false);
   getTracks(): void {
     if (this.playlistUrl) {
+      this.isLoading.set(true);
       this.spotifyService.getPlaylistTracks(this.playlistUrl)
         .subscribe({
-          next(resp) { console.log(resp) },
-          error(err) { console.log(err) }
+          next: (resp) => { console.log(resp) },
+          error: (err) => { console.log(err) },
+          complete: () => { this.isLoading.set(false) }
         });
     }
   }

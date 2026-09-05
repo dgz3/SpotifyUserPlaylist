@@ -16,6 +16,22 @@ html {
     typography: Roboto,
     density: 0,
   ));
+
+  @include mat.button-overrides((
+    outlined-container-shape: 4px,
+    outlined-label-text-color: #ffffff,
+    outlined-state-layer-color: #ffffff,
+  
+  ));
+
+  @include mat.form-field-overrides((
+    outlined-focus-outline-color: #ffffff
+  ));
+
+  @include mat.select-overrides((
+    focused-arrow-color: #ffffff,
+  ));
+
 }
 
 body {

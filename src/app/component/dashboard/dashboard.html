@@ -9,6 +9,7 @@
         (playlist)="getPlaylist($event)">
     </app-playlist-list>
     <button 
+        [disabled]="isLoading()"
         matButton="outlined" 
         (click)="getTracks()">load tracks
     </button>
