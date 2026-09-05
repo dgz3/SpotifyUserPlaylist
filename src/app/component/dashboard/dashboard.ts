@@ -6,10 +6,15 @@ import { Playlist } from '../../model/playlist';
 import { PlaylistList } from "./playlist-list/playlist-list";
 import { ProfileView } from "./profile-view/profile-view";
 import { Profile } from '../../model/profile';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [PlaylistList, ProfileView],
+  imports: [
+    ProfileView,
+    PlaylistList, 
+    MatButton,
+  ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })

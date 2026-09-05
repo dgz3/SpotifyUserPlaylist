@@ -1,7 +1,12 @@
-<select #playlist_selector (change)="displayPlaylist(playlist_selector.value)">
-    @for (playlist of playlists(); track playlist.href) {
-        <option [value]="playlist.href"> 
-            {{ playlist.name }} 
-        </option>
-    }
-</select>
+<mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-label>Playlists</mat-label>
+    <mat-select 
+        [value]="selectedPlaylist()"
+        (valueChange)="playlist.emit($event)">
+        @for (playlist of playlists(); track playlist.href) {
+            <mat-option [value]="playlist.href"> 
+                {{ playlist.name }} 
+            </mat-option>
+        }
+    </mat-select>
+</mat-form-field>

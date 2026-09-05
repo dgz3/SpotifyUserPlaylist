@@ -1,8 +1,15 @@
 <!-- <button (click)="loadUserProfile()">loadUserProfile</button> -->
+<button matButton="outlined" class="fixed-exit-button" (click)="logout()"> Exit </button>
 
 <app-profile-view [profile]="resolvedProfile()"></app-profile-view>
-<button (click)="logout()">logout</button>
 
-<app-playlist-list [playlists]="resolvedPlaylists()" (playlist)="getPlaylist($event)"></app-playlist-list>
-
-<button (click)="getTracks()">load tracks</button>
+<div style="display:flex; flex-direction: row; justify-content:space-evenly ; align-items: center; border: 0.5px solid beige ; border-radius: 7px; padding: 10px; margin: 5px 0 5px 0;">
+    <app-playlist-list 
+        [playlists]="resolvedPlaylists()" 
+        (playlist)="getPlaylist($event)">
+    </app-playlist-list>
+    <button 
+        matButton="outlined" 
+        (click)="getTracks()">load tracks
+    </button>
+</div>
