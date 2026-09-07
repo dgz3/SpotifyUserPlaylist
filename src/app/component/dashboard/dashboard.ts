@@ -1,5 +1,5 @@
-import { Component, input, OnInit, signal } from '@angular/core';
-import { AuthService } from '../../service/auth';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { AuthService } from '../../service/auth-service';
 import { SpotifyService } from '../../service/spotify-service';
 import { Track } from '../../model/track';
 import { Playlist } from '../../model/playlist';

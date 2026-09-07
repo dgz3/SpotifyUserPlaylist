@@ -11,6 +11,11 @@
     <button 
         [disabled]="isLoading()"
         matButton="outlined" 
-        (click)="getTracks()">load tracks
+        (click)="getTracks()">
+        @if ( isLoading() ) {
+            Loading...
+        } @else {
+            Load Tracks
+        }
     </button>
 </div>
