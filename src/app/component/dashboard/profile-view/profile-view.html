@@ -1,7 +1,41 @@
 <div class="parent-div">
+    <!--
+    TODO:
+    Angular aligns the optional chaining operator (?.) 
+    behavior with standard JavaScript by returning undefined 
+    instead of null when the left-hand side is null or undefined. 
+    [1] (https://angular.dev/guide/templates/expression-syntax)
+    
+    Understanding the Safe Navigation MigrationPrior to Angular v22, 
+    Angular's optional chaining operator (?.) in template expressions 
+    returned null if the left-hand side was null or undefined. 
+    Standard JavaScript optional chaining returns undefined. 
+    Angular v22 aligns its behavior with standard JavaScript. 
+    [1] (https://angular.dev/guide/templates/expression-syntax)
+    
+    During the upgrade to Angular v22, ng update schematics 
+    automatically insert a temporary magic function called 
+    $safeNavigationMigration to wrap existing expressions. 
+    [1] (https://angular.dev/guide/templates/expression-syntax)
+    
+    Key Details of $safeNavigationMigrationTemporary Aid: 
+    It forces the compiler to use legacy null-returning semantics 
+    for specific template expressions.
+    
+    Not Real Code: 
+    It is a compiler instruction only and cannot be called or imported 
+    in TypeScript.
+    
+    Best Practice: 
+    Refactor your expressions to handle or no longer rely on null 
+    versus undefined distinctions so you can safely remove the wrapper, 
+    as this temporary function may be deprecated and removed in 
+    future Angular versions. 
+    [1] (https://angular.dev/guide/templates/expression-syntax) 
+    -->
     <img 
-        [src]="this.profile()?.image?.url" 
-        [width]="this.profile()?.image?.width" >
+        [src]="$safeNavigationMigration(this.profile()?.image?.url)" 
+        [width]="$safeNavigationMigration(this.profile()?.image?.width)" >
     <div class="info-grid-div">
         <div id="account-id-label">Account ID</div>
         <div id="account-id-data" > 

@@ -1,0 +1,10 @@
+<div style='display:flex; flex-direction: row;'>
+    <span style='display: inline-flex; align-items: center; margin-right: 5px;'>
+    @switch (data.type) {
+        @case ('success') { <mat-icon>check</mat-icon> }
+        @case ('error')   { <mat-icon>error</mat-icon> }
+        @case ('info')    { <mat-icon>info</mat-icon>  }
+    }
+    </span>
+    <span style='display: inline-flex; align-items: center;'>{{ data.message }}</span>
+</div>

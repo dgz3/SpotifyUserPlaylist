@@ -1,6 +1,6 @@
 .fixed-exit-button {
     position: absolute;
-    top: 0;
+    bottom: 0;
     right: 0;
     margin: 16px;
     font-size: larger;

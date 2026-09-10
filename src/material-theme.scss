@@ -32,6 +32,8 @@ html {
     focused-arrow-color: #ffffff,
   ));
 
+  @include mat.snack-bar-overrides(( ));
+
 }
 
 body {
@@ -50,4 +52,21 @@ body {
   // Reset the user agent margin.
   margin: 0;
   height: 100%;
+}
+
+.mat-mdc-snack-bar-container {
+  &.snackbar-success .mdc-snackbar__surface { 
+    background-color: green !important; 
+    color: aliceblue;
+  }
+
+  &.snackbar-error   .mdc-snackbar__surface { 
+    background-color: red !important; 
+    color: aliceblue;
+  }
+
+  &.snackbar-info    .mdc-snackbar__surface { 
+    background-color: cornflowerblue !important; 
+    color: aliceblue;
+  }
 }

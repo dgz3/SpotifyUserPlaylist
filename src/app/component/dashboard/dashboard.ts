@@ -7,6 +7,8 @@ import { PlaylistList } from "./playlist-list/playlist-list";
 import { ProfileView } from "./profile-view/profile-view";
 import { Profile } from '../../model/profile';
 import { MatButton } from '@angular/material/button';
+import { NotificationService } from '../../service/notification-service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +16,7 @@ import { MatButton } from '@angular/material/button';
     ProfileView,
     PlaylistList, 
     MatButton,
+    MatIcon,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
@@ -23,6 +26,7 @@ export class Dashboard {
   resolvedProfile = input<Profile>();
 
   private playlistUrl: string | null = null;
+  private notifyService = inject(NotificationService);
 
   // profile = signal<Profile | null>(null);
   
@@ -41,8 +45,14 @@ export class Dashboard {
       this.spotifyService.getPlaylistTracks(this.playlistUrl)
         .subscribe({
           next: (resp) => { console.log(resp) },
-          error: (err) => { console.log(err) },
-          complete: () => { this.isLoading.set(false) }
+          error: (err) => { 
+            console.log(err);
+            this.isLoading.set(false);
+          },
+          complete: () => { 
+            this.notifyService.displaySuccess('Playlist successfully loaded!')
+            this.isLoading.set(false);
+          }
         });
     }
   }
