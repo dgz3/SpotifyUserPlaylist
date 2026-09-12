@@ -33,7 +33,22 @@ export class Dashboard {
   constructor(private authService: AuthService,
               private spotifyService: SpotifyService) {}
 
-  getPlaylist(playlistHref: string): void {
+  downloadFetchedTracks(): void 
+  {
+    const json = JSON.stringify(this.fetchedTracks(),null,2);
+    const blob = new Blob([json], {type: 'application/json'});
+    const blobUrl = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = blobUrl;
+    anchor.download = 'test.json';
+
+    anchor.click();
+
+    window.URL.revokeObjectURL(blobUrl);
+  }
+
+  getPlaylist(playlistHref: string): void 
+  {
     console.log(playlistHref);
     this.playlistUrl = playlistHref;
   }
@@ -41,7 +56,8 @@ export class Dashboard {
   isLoading = signal(false);
   fetchedTracks = signal<Track[] | null>(null);
   fetchedTimestamp = signal<Date | null>(null);
-  getTracks(): void {
+  getTracks(): void 
+  {
     if (this.playlistUrl) {
       this.isLoading.set(true);
       this.spotifyService.getPlaylistTracks(this.playlistUrl)
@@ -64,7 +80,8 @@ export class Dashboard {
   }
 
   /* /me/playlists */
-  loadPlaylists(): void {
+  loadPlaylists(): void 
+  {
     this.spotifyService.getUserPlaylists()
       .subscribe({
         next(resp) { console.log(resp) },
@@ -72,7 +89,8 @@ export class Dashboard {
       });
   }
 
-  logout(): void {
+  logout(): void 
+  {
     this.authService.logout();
   }
 

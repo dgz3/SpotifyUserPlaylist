@@ -18,6 +18,8 @@ import { first, take } from 'rxjs';
 export class PlaylistList {
   playlists = input<Playlist[]>();
   playlist = output<string>();
+  playlistName = output<string>();
+
 
   selectedPlaylist = linkedSignal( () => this.playlists()?.[0].href );
 

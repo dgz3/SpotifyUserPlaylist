@@ -22,11 +22,13 @@
 
 @if ( fetchedTracks() != null ) {
 <div style="display:flex; flex-direction: column; width: auto;">
-    <button matButton="outlined">
+    <button matButton="outlined" (click)="downloadFetchedTracks()">
         <mat-icon>download</mat-icon>
         Download JSON Info ({{ fetchedTracks()?.length }})
     </button>
-    <span><small>last loaded at {{ fetchedTimestamp()?.toLocaleString() }}</small></span>
+    <span style="margin: auto;">
+        <small>last loaded at {{ fetchedTimestamp()?.toLocaleString() }}</small>
+    </span>
 </div>
 }
 
