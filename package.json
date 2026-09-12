@@ -39,6 +39,7 @@
     "@angular/cli": "^22.1.7",
     "@angular/compiler-cli": "^22.1.5",
     "@angular/material": "^21.2.14",
+    "angular-cli-ghpages": "^3.1.0",
     "jsdom": "^27.1.0",
     "typescript": "~6.0.3",
     "vitest": "^4.0.8"

@@ -9,7 +9,8 @@ import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 export class AuthService {
 
   private clientId = 'f52991f223b242d385949eb2a569c5da';
-  private redirectUri = 'http://127.0.0.1:4200/callback';
+  // private redirectUri = 'http://127.0.0.1:4200/callback';
+  private redirectUri = 'https://dgz3.github.io/spotify-tracks/callback';
   private scopes = 'user-read-private user-read-email playlist-read-private user-library-read';
   private tokenEndpoint = 'https://accounts.spotify.com/api/token';
   private authorizeEndpoint = 'https://accounts.spotify.com/authorize';
