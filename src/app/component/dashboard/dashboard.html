@@ -20,8 +20,13 @@
     </button>
 </div>
 
-<!-- <div>
-    <button matButton (click)="displayNotie()">
-        display-notie
+@if ( fetchedTracks() != null ) {
+<div style="display:flex; flex-direction: column; width: auto;">
+    <button matButton="outlined">
+        <mat-icon>download</mat-icon>
+        Download JSON Info ({{ fetchedTracks()?.length }})
     </button>
-</div> -->
+    <span><small>last loaded at {{ fetchedTimestamp()?.toLocaleString() }}</small></span>
+</div>
+}
+

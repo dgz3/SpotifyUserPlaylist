@@ -39,12 +39,18 @@ export class Dashboard {
   }
 
   isLoading = signal(false);
+  fetchedTracks = signal<Track[] | null>(null);
+  fetchedTimestamp = signal<Date | null>(null);
   getTracks(): void {
     if (this.playlistUrl) {
       this.isLoading.set(true);
       this.spotifyService.getPlaylistTracks(this.playlistUrl)
         .subscribe({
-          next: (resp) => { console.log(resp) },
+          next: (resp) => { 
+            console.log(resp);
+            this.fetchedTracks.set(resp);
+            this.fetchedTimestamp.set(new Date());
+          },
           error: (err) => { 
             console.log(err);
             this.isLoading.set(false);
@@ -55,6 +61,19 @@ export class Dashboard {
           }
         });
     }
+  }
+
+  /* /me/playlists */
+  loadPlaylists(): void {
+    this.spotifyService.getUserPlaylists()
+      .subscribe({
+        next(resp) { console.log(resp) },
+        error(err) { console.log(err) }
+      });
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
   /* /me/tracks */
@@ -79,17 +98,4 @@ export class Dashboard {
   //       error: (err) => console.log(err) 
   //     });
   // }
-
-  /* /me/playlists */
-  loadPlaylists(): void {
-    this.spotifyService.getUserPlaylists()
-      .subscribe({
-        next(resp) { console.log(resp) },
-        error(err) { console.log(err) }
-      });
-  }
-
-  logout(): void {
-    this.authService.logout();
-  }
 }
