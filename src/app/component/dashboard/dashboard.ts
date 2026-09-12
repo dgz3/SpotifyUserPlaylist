@@ -22,11 +22,13 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './dashboard.css',
 })
 export class Dashboard {
+  private notifyService = inject(NotificationService);
+
   resolvedPlaylists = input<Playlist[]>();
   resolvedProfile = input<Profile>();
 
-  private playlistUrl: string | null = null;
-  private notifyService = inject(NotificationService);
+  playlist = signal<Playlist | undefined>(undefined);
+  downloadButtonLabel = signal<string | undefined>(undefined);
 
   // profile = signal<Profile | null>(null);
   
@@ -40,17 +42,18 @@ export class Dashboard {
     const blobUrl = window.URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = blobUrl;
-    anchor.download = 'test.json';
+    anchor.download = `${this.playlist()?.name.replaceAll(' ','_')}_${this.fetchedTimestamp()?.getTime()}.json`;
 
     anchor.click();
 
     window.URL.revokeObjectURL(blobUrl);
   }
 
-  getPlaylist(playlistHref: string): void 
+  getPlaylist(playlist: Playlist | undefined): void 
   {
-    console.log(playlistHref);
-    this.playlistUrl = playlistHref;
+    if (playlist === undefined) return;
+
+    this.playlist.set(playlist);
   }
 
   isLoading = signal(false);
@@ -58,14 +61,18 @@ export class Dashboard {
   fetchedTimestamp = signal<Date | null>(null);
   getTracks(): void 
   {
-    if (this.playlistUrl) {
+    const href = this.playlist()?.href;
+    if (href) {
       this.isLoading.set(true);
-      this.spotifyService.getPlaylistTracks(this.playlistUrl)
+      this.spotifyService.getPlaylistTracks(href)
         .subscribe({
           next: (resp) => { 
             console.log(resp);
             this.fetchedTracks.set(resp);
             this.fetchedTimestamp.set(new Date());
+            this.downloadButtonLabel.set(
+              `Download "${this.playlist()?.name}" as JSON`
+            );
           },
           error: (err) => { 
             console.log(err);

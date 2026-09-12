@@ -21,11 +21,11 @@ html {
     outlined-container-shape: 4px,
     outlined-label-text-color: #ffffff,
     outlined-state-layer-color: #ffffff,
-  
   ));
 
   @include mat.form-field-overrides((
-    outlined-focus-outline-color: #ffffff
+    outlined-focus-outline-color: #ffffff,
+    outlined-focus-label-text-color: #ffffff,
   ));
 
   @include mat.select-overrides((

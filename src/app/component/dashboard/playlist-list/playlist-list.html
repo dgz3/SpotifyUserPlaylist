@@ -4,7 +4,7 @@
         [value]="selectedPlaylist()"
         (valueChange)="playlist.emit($event)">
         @for (playlist of playlists(); track playlist.href) {
-            <mat-option [value]="playlist.href"> 
+            <mat-option [value]="playlist"> 
                 {{ playlist.name }} 
             </mat-option>
         }

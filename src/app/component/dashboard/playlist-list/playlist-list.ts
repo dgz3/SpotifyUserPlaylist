@@ -17,11 +17,11 @@ import { first, take } from 'rxjs';
 })
 export class PlaylistList {
   playlists = input<Playlist[]>();
-  playlist = output<string>();
+  playlist = output<Playlist | undefined>();
   playlistName = output<string>();
 
 
-  selectedPlaylist = linkedSignal( () => this.playlists()?.[0].href );
+  selectedPlaylist = linkedSignal( () => this.playlists()?.[0] );
 
   constructor() 
   { 
@@ -33,8 +33,8 @@ export class PlaylistList {
     effect( () => {
       const initialValues = this.playlists() ?? [];
       this.playlist.emit(
-        (initialValues.length > 0) ? initialValues[0].href 
-                                   : 'ERROR: playlist url not found'
+        (initialValues.length > 0) ? initialValues[0]
+                                   : undefined
       );
     });
   }

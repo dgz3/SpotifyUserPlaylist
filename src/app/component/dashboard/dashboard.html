@@ -12,6 +12,7 @@
         [disabled]="isLoading()"
         matButton="outlined" 
         (click)="getTracks()">
+        <mat-icon>sync</mat-icon>
         @if ( isLoading() ) {
             Loading...
         } @else {
@@ -22,9 +23,11 @@
 
 @if ( fetchedTracks() != null ) {
 <div style="display:flex; flex-direction: column; width: auto;">
-    <button matButton="outlined" (click)="downloadFetchedTracks()">
+    <button 
+        matButton="outlined"
+        (click)="downloadFetchedTracks()">
         <mat-icon>download</mat-icon>
-        Download JSON Info ({{ fetchedTracks()?.length }})
+        {{ downloadButtonLabel() }} ({{ fetchedTracks()?.length }})
     </button>
     <span style="margin: auto;">
         <small>last loaded at {{ fetchedTimestamp()?.toLocaleString() }}</small>
